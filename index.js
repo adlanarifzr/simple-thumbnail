@@ -94,9 +94,15 @@ function ffmpegExecute (path, args, rstream, wstream) {
   return new Promise((resolve, reject) => {
     if (rstream) {
       rstream.pipe(ffmpeg.stdin)
+      ffmpeg.stdin.on('error', (err) => {
+        // console.warn(err)
+      })
     }
     if (wstream) {
       ffmpeg.stdout.pipe(wstream)
+      ffmpeg.stdout.on('error', (err) => {
+        // console.warn(err)
+      })
     }
 
     ffmpeg.stderr.on('data', (data) => {
